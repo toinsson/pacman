@@ -17,6 +17,7 @@
             });
         },
         exec: function(key, e) {
+            console.log('key '+key);
             var keyListeners = this.listeners[key];
             if (!keyListeners) {
                 return;
@@ -39,9 +40,14 @@
     var keyDownListeners = new KeyEventListener();
     var keyUpListeners = new KeyEventListener();
 
+    // key event listeners for control
+    var controlListeners = new KeyEventListener();
+
     // helper functions for adding custom key listeners
     var addKeyDown = function(key,callback,isActive) { keyDownListeners.add(key,callback,isActive); };
     var addKeyUp   = function(key,callback,isActive) { keyUpListeners.add(key,callback,isActive); };
+
+    var addControl   = function(key,callback,isActive) { controlListeners.add(key,callback,isActive); };
 
     // boolean states of each key
     var keyStates = {};
@@ -50,13 +56,20 @@
     window.addEventListener("keydown", function(e) {
         var key = (e||window.event).keyCode;
 
+        console.log('window down '+key);
         // only execute at first press event
         if (!keyStates[key]) {
             keyStates[key] = true;
             keyDownListeners.exec(key, e);
         }
+
+        // we want to keep pressing for the control
+        controlListeners.exec(key, e)
+
+
     });
     window.addEventListener("keyup",function(e) {
+        console.log('window up '+key);
         var key = (e||window.event).keyCode;
 
         keyStates[key] = false;
@@ -104,6 +117,10 @@
     var KEY_END = 35;
 
     // Custom Key Listeners
+    addControl(KEY_LEFT,  function() { cdobj.moveX(1); },  isPlayState);
+    addControl(KEY_RIGHT, function() { cdobj.moveX(-1); }, isPlayState);
+    addControl(KEY_UP,    function() { cdobj.moveY(1); },  isPlayState);
+    addControl(KEY_DOWN,  function() { cdobj.moveY(-1); }, isPlayState);
 
     // Menu Navigation Keys
     var menu;
@@ -114,6 +131,7 @@
         }
         return menu;
     };
+
     addKeyDown(KEY_ESC,   function(){ menu.backButton ? menu.backButton.onclick():0; return true; }, isInMenu);
     addKeyDown(KEY_ENTER, function(){ menu.clickCurrentOption(); }, isInMenu);
     var isMenuKeysAllowed = function() {
@@ -158,7 +176,7 @@
 
     // Skip Level
     var canSkip = function() {
-        return isPracticeMode() && 
+        return isPracticeMode() &&
             (state == newGameState ||
             state == readyNewState ||
             state == readyRestartState ||
@@ -205,7 +223,7 @@ var initSwipe = function() {
 
     // minimum distance from anchor before direction is registered
     var r = 4;
-    
+
     var touchStart = function(event) {
         event.preventDefault();
         var fingerCount = event.touches.length;
@@ -264,7 +282,7 @@ var initSwipe = function() {
         // tap to clear input directions
         pacman.clearInputDir(undefined);
     };
-    
+
     // register touch events
     document.onclick = touchTap;
     document.ontouchstart = touchStart;

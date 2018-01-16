@@ -2,7 +2,7 @@
 //   so it may be phased out in future JS versions.  It's not even supported in Internet Explorer.
 //
 //  Object.create does everything that I would use a mutable __proto__ for, but this isn't implemented everywhere yet.
-// 
+//
 //  So instead of the following:
 //
 //      var obj = {
@@ -36,4 +36,4 @@ var newChildObject = function(parentObj, newObj) {
     return resultObj;
 };
 
-var DEBUG = false;
+var DEBUG = true;

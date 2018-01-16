@@ -8,6 +8,7 @@ function audioTrack(url, volume) {
     audio.load();
     var looping = false;
     this.play = function(noResetTime) {
+        if (!WITH_AUDIO) return;
         playSound(noResetTime);
     };
     this.startLoop = function(noResetTime) {
@@ -27,13 +28,15 @@ function audioTrack(url, volume) {
     };
     this.isPaused = function() {
         return audio.paused;
-    }; 
+    };
     this.stop = this.stopLoop;
 
     function audioLoop(noResetTime) {
         playSound(noResetTime);
     }
     function playSound(noResetTime) {
+        if (!WITH_AUDIO) return;
+
         // for really rapid sound repeat set noResetTime
         if(!audio.paused) {
             audio.pause();
@@ -44,7 +47,7 @@ function audioTrack(url, volume) {
             if(playPromise) {
                 playPromise.then(function(){}).catch(function(err){});
             }
-        } 
+        }
         catch(err){ console.error(err) }
     }
 }

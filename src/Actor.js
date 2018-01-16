@@ -178,7 +178,7 @@ Actor.prototype.update = function(j) {
 
     // get number of steps to advance in this frame
     var numSteps = this.getNumSteps();
-    if (j >= numSteps) 
+    if (j >= numSteps)
         return;
 
     // request to advance one step, and increment count if step taken

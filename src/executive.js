@@ -21,7 +21,7 @@ var executive = (function(){
             window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame']
                                        || window[vendors[x]+'CancelRequestAnimationFrame'];
         }
-     
+
         if (!window.requestAnimationFrame)
             window.requestAnimationFrame = function(callback, element) {
                 var currTime = new Date().getTime();
@@ -31,7 +31,7 @@ var executive = (function(){
                 lastTime = currTime + timeToCall;
                 return id;
             };
-     
+
         if (!window.cancelAnimationFrame)
             window.cancelAnimationFrame = function(id) {
                 clearTimeout(id);
@@ -67,10 +67,11 @@ var executive = (function(){
             fps = frames / seconds;
         };
     })();
-        
+
 
     var reqFrame; // id of requestAnimationFrame object
     var tick = function(now) {
+        console.log('tick')
         if (gameTime == undefined) {
             gameTime = now;
         }
