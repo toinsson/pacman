@@ -69,8 +69,9 @@
 
     });
     window.addEventListener("keyup",function(e) {
-        console.log('window up '+key);
         var key = (e||window.event).keyCode;
+
+        console.log('window up '+key);
 
         keyStates[key] = false;
         keyUpListeners.exec(key, e);
@@ -114,6 +115,11 @@
     var KEY_1 = 49;
     var KEY_2 = 50;
 
+    var KEY_0 = 48;
+    var KEY_7 = 55;
+    var KEY_8 = 56;
+    var KEY_9 = 57;
+
     var KEY_END = 35;
 
     // Custom Key Listeners
@@ -151,10 +157,17 @@
     addKeyDown(KEY_RIGHT, function() { pacman.setInputDir(DIR_RIGHT); }, isPlayState);
     addKeyDown(KEY_UP,    function() { pacman.setInputDir(DIR_UP); },    isPlayState);
     addKeyDown(KEY_DOWN,  function() { pacman.setInputDir(DIR_DOWN); },  isPlayState);
-    addKeyUp  (KEY_LEFT,  function() { pacman.clearInputDir(DIR_LEFT); },  isPlayState);
-    addKeyUp  (KEY_RIGHT, function() { pacman.clearInputDir(DIR_RIGHT); }, isPlayState);
-    addKeyUp  (KEY_UP,    function() { pacman.clearInputDir(DIR_UP); },    isPlayState);
-    addKeyUp  (KEY_DOWN,  function() { pacman.clearInputDir(DIR_DOWN); },  isPlayState);
+
+    addKeyDown(KEY_8, function() { pacman.setInputDir(DIR_LEFT); },  isPlayState);
+    addKeyDown(KEY_0, function() { pacman.setInputDir(DIR_RIGHT); }, isPlayState);
+    addKeyDown(KEY_7, function() { pacman.setInputDir(DIR_UP); },    isPlayState);
+    addKeyDown(KEY_9, function() { pacman.setInputDir(DIR_DOWN); },  isPlayState);
+
+    // possibly better suited - queue the input ...
+    // addKeyUp  (KEY_LEFT,  function() { pacman.clearInputDir(DIR_LEFT); },  isPlayState);
+    // addKeyUp  (KEY_RIGHT, function() { pacman.clearInputDir(DIR_RIGHT); }, isPlayState);
+    // addKeyUp  (KEY_UP,    function() { pacman.clearInputDir(DIR_UP); },    isPlayState);
+    // addKeyUp  (KEY_DOWN,  function() { pacman.clearInputDir(DIR_DOWN); },  isPlayState);
 
     // Slow-Motion
     var isPracticeMode = function() { return isPlayState() && practiceMode; };
